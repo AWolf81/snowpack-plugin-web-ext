@@ -4,7 +4,7 @@
   "description": "Web ext plugin for snowpack",
   "scripts": {
     "build": "pika build",
-    "deploy": "pika publish ",
+    "deploy": "pika publish --any-branch",
     "version": "npm run build"
   },
   "@pika/pack": {
@@ -18,8 +18,7 @@
     ]
   },
   "publishConfig": {
-    "access": "public",
-    "branch": "main"
+    "access": "public"
   },
   "peerDependencies": {
     "web-ext": ">=5.x",
