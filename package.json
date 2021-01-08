@@ -2,6 +2,14 @@
   "name": "snowpack-plugin-web-ext",
   "version": "0.0.4",
   "description": "Web ext plugin for snowpack",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AWolf81/snowpack-plugin-web-ext.git"
+  },
+  "keywords": [
+    "snowpack",
+    "snowpack-plugin"
+  ],
   "scripts": {
     "build": "pika build",
     "deploy": "pika publish --any-branch",
