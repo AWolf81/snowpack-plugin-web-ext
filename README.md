@@ -32,5 +32,8 @@ module.exports = {
 
 We need to start the dev server with `snowpack build --watch` instead of `snowpack dev` as we have to generate the build directory for web-ext. Change the dev script in your `package.json` to `snowpack build --watch`
 
+# Example app
+You can find an example with the plugin in the following repo https://github.com/AWolf81/snowpack-chrome-preact-popup-demo.
+
 # Licence
 MIT
