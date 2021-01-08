@@ -1,5 +1,5 @@
 {
-  "name": "web-ext-snowpack-plugin",
+  "name": "snowpack-plugin-web-ext",
   "version": "0.0.2",
   "description": "Web ext plugin for snowpack",
   "scripts": {
