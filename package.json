@@ -1,6 +1,6 @@
 {
   "name": "web-ext-snowpack-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Web ext plugin for snowpack",
   "scripts": {
     "build": "pika build",
