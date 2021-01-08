@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "target": "ES2020",
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "typeRoots": ["node_modules/@types", "src/types"],
+      "allowSyntheticDefaultImports": true // needed for json-templates
+    }
+}
