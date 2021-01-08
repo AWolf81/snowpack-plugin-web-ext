@@ -17,6 +17,10 @@
       ]
     ]
   },
+  "publishConfig": {
+    "access": "public",
+    "branch": "main"
+  },
   "peerDependencies": {
     "web-ext": ">=5.x",
     "json-templates": ">=4.x"
