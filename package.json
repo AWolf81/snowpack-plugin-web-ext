@@ -17,6 +17,10 @@
       ]
     ]
   },
+  "peerDependencies": {
+    "web-ext": ">=5.x",
+    "json-templates": ">=4.x"
+  },
   "devDependencies": {
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.9.2",
@@ -25,11 +29,9 @@
     "@types/node": "14.14.20",
     "snowpack": "^2.6.4",
     "typescript": "^3.9.7",
-    "web-ext": "5.4.1"
+    "web-ext": "^5.4.1",
+    "json-templates": "^4.1.0"
   },
   "author": "AWolf81",
-  "license": "MIT",
-  "dependencies": {
-    "json-templates": "4.1.0"
-  }
+  "license": "MIT"
 }
