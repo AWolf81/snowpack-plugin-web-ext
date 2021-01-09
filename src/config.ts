@@ -95,7 +95,8 @@ export const getConfig = async () => {
   let config:ConfigType = Object.assign(userHomeConfig, packageJsonConfig);
   config = Object.assign(config, cwdConfig);
 
-  if (!config.noReload) {
+  if (config.noReload === undefined) {
+    // default to noReload if nothing is defined in config
     config.noReload = true;
   }
   if (!config.sourceDir) {
