@@ -2,11 +2,10 @@ import { existsSync, promises } from "fs";
 import { relative as relativePath } from "path";
 import type { SnowpackConfig, SnowpackPluginFactory } from "snowpack";
 import webExt from "web-ext";
-import parse from "json-templates";
 
 import { getConfig } from "./config";
-import manifestTemplate from "./templates/manifest";
-import webextDefaultConfigTemplate from "./templates/web-ext-config";
+import createManifest from "./templates/manifest";
+import createWebextDefaultConfig from "./templates/web-ext-config";
 
 const { writeFile, readFile, copyFile } = promises;
 
@@ -17,28 +16,16 @@ let runner: {
 
 let isProductionBuild = false;
 
-// package.json could be with-out name, key or version values (need a fallback)
-const DEFAULT_MANIFEST_DATA = {
-  name: "my-web-extension",
-  version: "0.0.1", // @todo: we could check if we're finding a git version tag
-  description: "Add a brief description of your extension here..."
-};
-
 const DEFAULT_BROWSER = "chromium";
 
 const checkManifest = async (root = process.cwd(), buildOutDir: string ) => {
   try {
     if (!existsSync(`${root}/manifest.json`)) {
       // no manifest file exists --> create a manifest.json
-      const manifest = parse(manifestTemplate); // create template from raw file
       const data = await readFile(`${root}/package.json`);
+      const packageJson = JSON.parse(data.toString("utf-8"))
 
-      const packageJson = {
-        ...DEFAULT_MANIFEST_DATA,
-        ...JSON.parse(data.toString("utf-8")), 
-      };
-
-      const manifestContent = manifest(packageJson);
+      const manifestContent = createManifest(packageJson);
 
       await writeFile(`${root}/manifest.json`, JSON.stringify(manifestContent, null, 2)); 
       console.log(`${root}/manifest.json was succesfully created!`);
@@ -55,9 +42,8 @@ const checkWebExtConfig = async (root = process.cwd(), buildOutDir: string) => {
   try {
     if (!existsSync(`${root}/web-ext-config.js`) && !existsSync(`${root}/web-ext.config.js`)) {
       // no web-ext config file exists --> create a config file and show a log
-      const webextDefaultConfig = parse(webextDefaultConfigTemplate); // create template from raw file
       const relBuildDir = relativePath(root, buildOutDir);
-      const webextConfig = webextDefaultConfig({browserTarget: DEFAULT_BROWSER, sourceDir: relBuildDir});
+      const webextConfig = createWebextDefaultConfig({run: { target: DEFAULT_BROWSER }, sourceDir: relBuildDir});
       
       await writeFile(`${root}/web-ext-config.js`, `module.exports = \n${JSON.stringify(webextConfig, null, 2)}`);
       console.log(`${root}/web-ext-config.js was succesfully created!`);

@@ -29,8 +29,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "web-ext": ">=5.x",
-    "json-templates": ">=4.x"
+    "web-ext": ">=5.x"
   },
   "devDependencies": {
     "@pika/pack": "^0.5.0",
