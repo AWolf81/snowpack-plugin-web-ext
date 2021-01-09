@@ -1,33 +1,23 @@
 {
   "name": "snowpack-plugin-web-ext",
-  "version": "0.0.5",
   "description": "Web ext plugin for snowpack",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AWolf81/snowpack-plugin-web-ext.git"
-  },
+  "version": "0.0.5",
+  "license": "MIT",
+  "files": [
+    "dist-*/",
+    "bin/"
+  ],
+  "pika": true,
+  "sideEffects": false,
   "keywords": [
     "snowpack",
     "snowpack-plugin"
   ],
-  "scripts": {
-    "build": "pika build",
-    "deploy": "pika publish --any-branch",
-    "version": "npm run build"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AWolf81/snowpack-plugin-web-ext.git"
   },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg"
-      ],
-      [
-        "@pika/plugin-build-node"
-      ]
-    ]
-  },
-  "publishConfig": {
-    "access": "public"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "web-ext": ">=5.x"
   },
@@ -42,6 +32,10 @@
     "web-ext": "^5.4.1",
     "json-templates": "^4.1.0"
   },
-  "author": "AWolf81",
-  "license": "MIT"
+  "publishConfig": {
+    "access": "public"
+  },
+  "source": "dist-src/index.js",
+  "types": "dist-types/index.d.ts",
+  "main": "dist-node/index.js"
 }
