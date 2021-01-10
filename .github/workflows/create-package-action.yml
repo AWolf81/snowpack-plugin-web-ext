@@ -1,0 +1,21 @@
+# Create package for manual testing before deploy to npm
+name: Create package
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: npm install and build
+        run: |
+          npm install
+          npm run build --if-present
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist-without-markdown
+          path: |
+            pkg
