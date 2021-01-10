@@ -13,9 +13,14 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-      - name: Archive artifacts
+      - name: Archive artifacts (zip)
+        uses: actions/upload-artifact@v2
+        with:
+          name: package-archive
+          path: |
+            pkg
+      - name: Archive package results
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: |
-            pkg
+          path: pkg/*.*
