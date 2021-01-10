@@ -6,12 +6,13 @@ node_js:
 script:
   - npm install
   - npm run build
+  - tar -C pkg -czvf package.tar.gz .
 deploy:
   provider: releases
   token: $GITHUB_TOKEN
-  file_glob: true
-  file: pkg/**/*
   skip_cleanup: true
+  file: "package.tar.gz"
+  cleanup: true
   draft: true
   on:
     tags: true
