@@ -10,7 +10,7 @@ deploy:
   provider: releases
   token: $GITHUB_TOKEN
   file_glob: true
-  file: pkg/*
+  file: pkg/**/*
   skip_cleanup: true
   draft: true
   on:
