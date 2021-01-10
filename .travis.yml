@@ -9,6 +9,8 @@ script:
 deploy:
   provider: releases
   token: $GITHUB_TOKEN
+  file_glob: true
+  file: pkg/*
   cleanup: true
   draft: true
   on:
