@@ -11,7 +11,7 @@ deploy:
   token: $GITHUB_TOKEN
   file_glob: true
   file: pkg/*
-  cleanup: false
+  skip_cleanup: true
   draft: true
   on:
     tags: true
