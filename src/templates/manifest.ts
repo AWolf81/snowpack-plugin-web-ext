@@ -24,9 +24,7 @@ const DEFAULT_MANIFEST = {
 
 type ManifestType = typeof DEFAULT_MANIFEST;
 
-export default ({name, version, description}:ManifestType) => ({
+export default (data:ManifestType) => ({
   ...DEFAULT_MANIFEST,
-  name,
-  version,
-  description,
+  ...data
 })
