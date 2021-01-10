@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - 12
+script:
+  - npm install
+  - npm run build
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  skip_cleanup: true
+  draft: true
+  on:
+    tags: true
