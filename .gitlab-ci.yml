@@ -22,6 +22,8 @@ build:
   script:
     - npm install
     - npm run build
+    - tar -czvf package.tar.gz pkg
   artifacts:
     paths:
     - pkg/
+    - package.tar.gz
