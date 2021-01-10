@@ -12,7 +12,6 @@ deploy:
   token: $GITHUB_TOKEN
   skip_cleanup: true
   file: "package.tar.gz"
-  cleanup: true
   draft: true
   on:
     tags: true
