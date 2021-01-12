@@ -6,7 +6,12 @@
     "src/**/*.ts"
   ],
   "exclude": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ],
+  "extension": [
+    ".ts",
+    ".tsx"
   ],
   "reporter"   : ["text", "text-summary", "lcov", "html"]
 }
