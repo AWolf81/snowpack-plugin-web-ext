@@ -13,7 +13,10 @@
   "scripts": {
     "build": "pika build",
     "deploy": "pika publish --any-branch",
-    "version": "npm run build"
+    "version": "npm run build",
+    "test": "ts-mocha -p test/tsconfig.json src/**/*.spec.ts --exit",
+    "coverage": "nyc npm run test",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "@pika/pack": {
     "pipeline": [
@@ -32,16 +35,44 @@
     "web-ext": ">=5.x"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "1.0.1",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.9.2",
     "@pika/plugin-ts-standard-pkg": "^0.9.2",
+    "@schemastore/package": "0.0.6",
+    "@types/chai": "4.2.14",
     "@types/json-templates": "3.0.0",
+    "@types/mocha": "8.2.0",
     "@types/node": "14.14.20",
+    "@typescript-eslint/eslint-plugin": "4.13.0",
+    "@typescript-eslint/parser": "4.13.0",
+    "chai": "4.2.0",
+    "codecov": "3.8.1",
+    "eslint": "7.17.0",
+    "eslint-config-prettier": "7.1.0",
+    "eslint-plugin-prettier": "3.3.1",
+    "json-templates": "^4.1.0",
+    "mocha": "8.2.1",
+    "nyc": "15.1.0",
     "snowpack": "^2.6.4",
+    "source-map-support": "0.5.19",
+    "ts-mocha": "8.0.0",
     "typescript": "^3.9.7",
-    "web-ext": "^5.4.1",
-    "json-templates": "^4.1.0"
+    "web-ext": "^5.4.1"
   },
   "author": "AWolf81",
-  "license": "MIT"
+  "license": "MIT",
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
+  }
 }
