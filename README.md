@@ -1,8 +1,8 @@
 # Web-ext snowpack plugin
 
-[![Travis Status](https://api.travis-ci.com/AWolf81/snowpack-plugin-web-ext.svg?branch=main)](https://api.travis-ci.com/AWolf81/snowpack-plugin-web-ext.svg?branch=main)
+[![Travis Status](https://api.travis-ci.com/AWolf81/snowpack-plugin-web-ext.svg?branch=main)](https://travis-ci.com/AWolf81/snowpack-plugin-web-ext)
 
-[![codecov](https://img.shields.io/codecov/c/github/awolf81/snowpack-plugin-web-ext/main)](https://img.shields.io/codecov/c/github/awolf81/snowpack-plugin-web-ext/main)
+[![codecov](https://img.shields.io/codecov/c/github/awolf81/snowpack-plugin-web-ext/main)](https://codecov.io/gh/AWolf81/snowpack-plugin-web-ext)
 
 **Note:** This is a pretty alpha version of the plugin and it's very likely that I have to do larger changes.
 
