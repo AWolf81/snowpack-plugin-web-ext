@@ -3,31 +3,27 @@ os: linux
 dist: xenial
 node_js:
   - 12
-cache: npm
 jobs:
   include:
     - stage: test
       script:
-      - npm run test
-      - npm run report-coverage
-      
+        - npm run test
+        - npm run coverage
+        - npm run report-coverage
     - stage: build
       script:
-      - npm run build
-      - tar -C pkg -czvf package.tar.gz .
-
+        - npm run build
+        - tar -C pkg -czvf package.tar.gz .
 install:
-- npm ci
-# keep the npm cache around to speed up installs
+  - npm ci
 cache:
   directories:
-  - "$HOME/.npm"
-  
+    - $HOME/.npm
 deploy:
   provider: releases
   token: $GITHUB_TOKEN
   skip_cleanup: true
-  file: 'package.tar.gz'
+  file: package.tar.gz
   draft: true
-  on:
+  'on':
     tags: true
