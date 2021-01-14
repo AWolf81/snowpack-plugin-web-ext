@@ -12,14 +12,14 @@ const {writeFile, readFile, copyFile} = promises;
 
 let runner: {
   reloadAllExtensions: () => void;
-  registerCleanup: (cb: Function) => void;
+  registerCleanup: (cb: () => void) => void;
 } | null = null;
 
 let isProductionBuild = false;
 
 const DEFAULT_BROWSER = 'chromium';
 
-export const checkManifest = async (root = process.cwd(), buildOutDir: string) => {
+export const checkManifest = async (root = process.cwd(), buildOutDir: string): Promise<void> => {
   try {
     if (!existsSync(`${root}/manifest.json`)) {
       // no manifest file exists --> create a manifest.json
@@ -38,7 +38,10 @@ export const checkManifest = async (root = process.cwd(), buildOutDir: string) =
   }
 };
 
-export const checkWebExtConfig = async (root = process.cwd(), buildOutDir: string) => {
+export const checkWebExtConfig = async (
+  root = process.cwd(),
+  buildOutDir: string,
+): Promise<void> => {
   try {
     if (!existsSync(`${root}/web-ext-config.js`) && !existsSync(`${root}/web-ext.config.js`)) {
       // no web-ext config file exists --> create a config file and show a log

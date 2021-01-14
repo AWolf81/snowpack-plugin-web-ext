@@ -3,6 +3,7 @@
   "search.exclude": {
     "**/node_modules": true
   },
+  "files.eol": "\n",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
   "editor.formatOnType": false,
@@ -23,5 +24,5 @@
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  }
 }
