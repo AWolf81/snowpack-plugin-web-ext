@@ -1,5 +1,5 @@
 import {existsSync, promises} from 'fs';
-import {relative as relativePath} from 'path';
+import {relative as relativePath, join as pathJoin} from 'path';
 import type {SnowpackConfig, SnowpackPluginFactory} from 'snowpack';
 import * as webExt from 'web-ext';
 import type {JSONSchemaForNPMPackageJsonFiles} from '@schemastore/package';
@@ -16,7 +16,7 @@ type ExtensionRunnerType = {
   exit(): Promise<void>;
 } | null;
 
-let runner: ExtensionRunnerType = null;
+export let runner: ExtensionRunnerType = null;
 
 export let isProductionBuild = false;
 
@@ -26,11 +26,11 @@ export const checkManifest = async (root = process.cwd(), buildOutDir: string): 
   try {
     if (!existsSync(`${root}/manifest.json`)) {
       // no manifest file exists --> create a manifest.json
-      const data = await readFile(`${root}/package.json`);
+      const data = await readFile(pathJoin(root, 'package.json'));
       const packageJson: JSONSchemaForNPMPackageJsonFiles = JSON.parse(data.toString('utf-8'));
       const manifestContent = createManifest(packageJson);
 
-      await writeFile(`${root}/manifest.json`, JSON.stringify(manifestContent, null, 2));
+      await writeFile(pathJoin(root, 'manifest.json'), JSON.stringify(manifestContent, null, 2));
       console.log(`${root}/manifest.json was succesfully created!`);
     }
 
@@ -55,7 +55,7 @@ export const checkWebExtConfig = async (
       });
 
       await writeFile(
-        `${root}/web-ext-config.js`,
+        pathJoin(root, 'web-ext-config.js'),
         `module.exports = \n${JSON.stringify(webextConfig, null, 2)}`,
       );
       console.log(`${root}/web-ext-config.js was succesfully created!`);

@@ -1,7 +1,9 @@
 import {PluginRunOptions, SnowpackConfig, SnowpackPlugin} from 'snowpack';
+import * as path from 'path';
 
-const reloadAllExtensions = jest.fn();
-
+// @todo reloadAll & cleanup mock needed later
+// const reloadAllExtensions = jest.fn();
+// const registerCleanup = jest.fn();
 jest.mock('chrome-launcher'); // mock chrome so it's not starting
 jest.mock('web-ext'); // // important: mock before import
 
@@ -31,15 +33,10 @@ import {getConfig} from './config';
 
 const {mkdir, writeFile, copyFile} = promises;
 
-// jest.spyOn(webExt.cmd, 'run').mockResolvedValue({
-//   // registerCleanup: webExtActual.cmd.run.registerCleanup,
-//   reloadAllExtensions,
-// });
-
 describe('Snowpack web-ext plugin', () => {
   const testSnowpackConfig = {
     installOptions: {
-      cwd: './',
+      cwd: process.cwd(),
     },
     buildOptions: {
       out: 'build',
@@ -50,16 +47,14 @@ describe('Snowpack web-ext plugin', () => {
 
   // helper to start plugin
   const startPlugin = async (snowpackConfig: SnowpackConfig = testSnowpackConfig) => {
-    let runner;
     const runOptions = {} as PluginRunOptions;
     plugin = snowpackWebExtPlugin(snowpackConfig);
     if (plugin.config) {
       await plugin.config(snowpackConfig);
     }
     if (plugin.run) {
-      runner = await plugin.run(runOptions);
+      await plugin.run(runOptions);
     }
-    return runner;
   };
 
   beforeAll(() => {
@@ -70,55 +65,79 @@ describe('Snowpack web-ext plugin', () => {
     createDir();
   });
 
-  beforeEach(async () => {
-    await startPlugin();
-  });
+  it('should set cwd as default root for getManifest getWebExtconfig', async () => {
+    console.log('check cwd', process.cwd());
+    const manifestFile = path.normalize(path.join(process.cwd(), 'manifest.json'));
+    const webextConfigFile = path.normalize(path.join(process.cwd(), 'web-ext-config.js'));
 
-  it('should call web-ext `run` cmd', async () => {
-    const config = await getConfig(); // @todo getConfig needs to be tested separately - just check that it is passed here
-
-    expect(webExt.cmd.run).toHaveBeenCalledWith(config, expect.any(Object));
-  });
-
-  it('should call web-ext `build` cmd', async () => {
-    const productionConfig = {
+    await startPlugin({
       ...testSnowpackConfig,
       installOptions: {
         ...testSnowpackConfig.installOptions,
-        env: {
-          NODE_ENV: 'production',
-        },
+        cwd: undefined,
       },
-    };
-    await startPlugin(productionConfig);
-
-    const config = await getConfig(); // getConfig needs to be tested separately - just check that it is passed here
-    expect(webExt.cmd.build).toHaveBeenCalledWith(config, expect.any(Object));
+    });
+    expect((writeFile as jest.Mock).mock.calls[0]).toEqual(
+      expect.arrayContaining([expect.stringContaining(manifestFile), expect.anything()]),
+    );
+    expect((writeFile as jest.Mock).mock.calls[1]).toEqual(
+      expect.arrayContaining([expect.stringContaining(webextConfigFile), expect.anything()]),
+    );
   });
 
-  it('should generate manifest & webext', async () => {
-    // two template calls happend?
-    expect(createManifest).toHaveBeenCalled();
-    expect(createWebextDefaultConfig).toHaveBeenCalled();
-    // Both files written?
-    expect(writeFile).toHaveBeenCalledTimes(2);
-    // finally copy called for manifest to build folder copying
-    expect(copyFile).toHaveBeenCalled();
-  });
+  /*it('should reload all extensions on repeated call', async () => {
+    await startPlugin(); // run
 
-  xit('should reload all extensions on repeated call', async () => {
     expect(reloadAllExtensions).not.toHaveBeenCalled();
     console.log('start plugin', startPlugin);
     await startPlugin(); // run again
-    console.log('started', reloadAllExtensions.mock.calls);
-  });
+    expect(reloadAllExtensions).toHaveBeenCalled();
+  });*/
 
-  /*
-  // cleanup test not working yet
-  it('should clear runner on register cleanup', async () => {
-    expect(runner).toBeDefined(); // we're having a runner
-    if (runner) await runner.exit();
-    expect(runner).toBeUndefined(); // cleanup called
+  describe('Check run & build', () => {
+    beforeEach(async () => {
+      await startPlugin();
+    });
+
+    it('should call web-ext `run` cmd', async () => {
+      const config = await getConfig(); // @todo getConfig needs to be tested separately - just check that it is passed here
+
+      expect(webExt.cmd.run).toHaveBeenCalledWith(config, expect.any(Object));
+    });
+
+    it('should call web-ext `build` cmd', async () => {
+      const productionConfig = {
+        ...testSnowpackConfig,
+        installOptions: {
+          ...testSnowpackConfig.installOptions,
+          env: {
+            NODE_ENV: 'production',
+          },
+        },
+      };
+      await startPlugin(productionConfig);
+
+      const config = await getConfig(); // getConfig needs to be tested separately - just check that it is passed here
+      expect(webExt.cmd.build).toHaveBeenCalledWith(config, expect.any(Object));
+    });
+
+    it('should generate manifest & webext', async () => {
+      // two template calls happend?
+      expect(createManifest).toHaveBeenCalled();
+      expect(createWebextDefaultConfig).toHaveBeenCalled();
+      // Both files written?
+      expect(writeFile).toHaveBeenCalledTimes(2);
+      // finally copy called for manifest to build folder copying
+      expect(copyFile).toHaveBeenCalled();
+    });
+
+    /*
+    // cleanup test not working yet
+    it('should clear runner on register cleanup', async () => {
+      expect(runner).toBeDefined(); // we're having a runner
+      if (runner) await runner.exit();
+      expect(runner).toBeUndefined(); // cleanup called
+    });
+    */
   });
-  */
 });
