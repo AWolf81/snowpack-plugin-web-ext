@@ -16,7 +16,7 @@
     "version": "npm run build",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "npm test -- --watch",
-    "coverage": "npm test -- --coverage --reporter=lcov",
+    "coverage": "npm test -- --coverage",
     "report-coverage": "codecov --file=./coverage/lcov.info"
   },
   "@pika/pack": {
