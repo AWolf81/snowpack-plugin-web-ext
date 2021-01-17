@@ -11,6 +11,7 @@
     "snowpack-plugin"
   ],
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "build": "pika build",
     "deploy": "pika publish --any-branch",
     "version": "npm run build",
@@ -54,15 +55,17 @@
     "husky": "4.3.7",
     "jest": "26.6.3",
     "mocha": "8.2.1",
+    "npm-force-resolutions": "0.0.3",
     "prettier": "2.2.1",
     "pretty-quick": "3.1.0",
     "sinon": "9.2.3",
-    "snowpack": "^2.6.4",
+    "snowpack": "2.18.5",
     "source-map-support": "0.5.19",
     "ts-jest": "26.4.4",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "^3.9.7",
-    "web-ext": "^5.4.1"
+    "typescript": "3.9.7",
+    "url-regex-safe": "1.0.2",
+    "web-ext": "^5.5.0"
   },
   "author": "AWolf81",
   "license": "MIT",
@@ -70,5 +73,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "resolutions": {
+    "np": "7.2.0"
   }
 }
