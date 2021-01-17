@@ -11,7 +11,6 @@
     "snowpack-plugin"
   ],
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "build": "pika build",
     "deploy": "pika publish --any-branch",
     "version": "npm run build",
@@ -37,7 +36,7 @@
     "web-ext": ">=5.x"
   },
   "devDependencies": {
-    "@pika/pack": "^0.5.0",
+    "@pika/pack": "0.5.0",
     "@pika/plugin-build-node": "^0.9.2",
     "@pika/plugin-ts-standard-pkg": "^0.9.2",
     "@schemastore/package": "0.0.6",
@@ -74,8 +73,5 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
-  },
-  "resolutions": {
-    "np": "7.2.0"
   }
 }
