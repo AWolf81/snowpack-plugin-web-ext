@@ -12,6 +12,6 @@ module.exports = {
     },
   },
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!**/node_modules/**', '!**/vendor/**'],
-  coverageReporters: ['html', 'json'],
+  coverageReporters: ['html'],
   resetMocks: true,
 };
