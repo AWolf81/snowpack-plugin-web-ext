@@ -1,6 +1,4 @@
 import getManifest, {DEFAULT_MANIFEST} from './manifest';
-import {expect} from 'chai';
-import 'mocha';
 
 describe('manifest generation', () => {
   const testManifestPart = `{
@@ -28,10 +26,10 @@ describe('manifest generation', () => {
   it('should generate with-out invalid props from package.json e.g. devDependencies', () => {
     const packageJson = JSON.parse(testPackageJson);
     const manifest = getManifest(packageJson);
-    expect(manifest).to.not.have.property('devDependencies');
-    expect(manifest).to.not.have.property('something-else');
+    expect(manifest).not.toHaveProperty('devDependencies');
+    expect(manifest).not.toHaveProperty('something-else');
 
-    expect(manifest).to.deep.equal({
+    expect(manifest).toStrictEqual({
       ...DEFAULT_MANIFEST,
       ...JSON.parse(testManifestPart),
     });

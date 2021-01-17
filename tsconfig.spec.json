@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceRoot": "src",
+    "module": "commonjs",
+    "moduleResolution": "node"
+  },
+  "exclude": ["pkg", "node_modules"]
+}

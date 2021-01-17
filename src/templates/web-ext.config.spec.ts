@@ -1,10 +1,8 @@
 import getWebextConfig, {DEFAULT_WEBEXTCONFIG} from './web-ext-config';
-import {expect} from 'chai';
-import 'mocha';
 
 describe('webext config generation', () => {
   it('should load default config', () => {
-    expect(getWebextConfig(DEFAULT_WEBEXTCONFIG)).to.deep.equal(DEFAULT_WEBEXTCONFIG);
+    expect(getWebextConfig(DEFAULT_WEBEXTCONFIG)).toStrictEqual(DEFAULT_WEBEXTCONFIG);
   });
   it('should target multiple browsers', () => {
     const browsers = ['chromium', 'firefox-desktop'];
@@ -15,7 +13,7 @@ describe('webext config generation', () => {
         },
         sourceDir: 'build',
       }),
-    ).to.deep.equal({
+    ).toStrictEqual({
       run: {
         target: browsers,
         noReload: false,
@@ -32,7 +30,7 @@ describe('webext config generation', () => {
         },
         sourceDir: 'build',
       }),
-    ).to.deep.equal({
+    ).toStrictEqual({
       run: {
         target: [browser], // added brackets
         noReload: false,

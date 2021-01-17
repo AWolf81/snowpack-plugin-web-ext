@@ -9,7 +9,6 @@
     "noUnusedParameters": true,
     "skipLibCheck": true,
     "strict": true,
-    "typeRoots": ["node_modules/@types", "src/types"],
-    "allowSyntheticDefaultImports": true // needed for json-templates
+    "typeRoots": ["node_modules/@types", "src/types"]
   }
 }

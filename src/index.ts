@@ -1,7 +1,7 @@
 import {existsSync, promises} from 'fs';
 import {relative as relativePath} from 'path';
 import type {SnowpackConfig, SnowpackPluginFactory} from 'snowpack';
-import webExt from 'web-ext';
+import * as webExt from 'web-ext';
 import type {JSONSchemaForNPMPackageJsonFiles} from '@schemastore/package';
 
 import {getConfig} from './config';
@@ -10,14 +10,17 @@ import createWebextDefaultConfig from './templates/web-ext-config';
 
 const {writeFile, readFile, copyFile} = promises;
 
-let runner: {
+type ExtensionRunnerType = {
   reloadAllExtensions: () => void;
   registerCleanup: (cb: () => void) => void;
-} | null = null;
+  exit(): Promise<void>;
+} | null;
 
-let isProductionBuild = false;
+let runner: ExtensionRunnerType = null;
 
-const DEFAULT_BROWSER = 'chromium';
+export let isProductionBuild = false;
+
+export const DEFAULT_BROWSER = 'chromium';
 
 export const checkManifest = async (root = process.cwd(), buildOutDir: string): Promise<void> => {
   try {
@@ -64,14 +67,14 @@ export const checkWebExtConfig = async (
 
 const plugin: SnowpackPluginFactory = () => ({
   name: 'web-ext-snowpack-plugin',
-  config(snowpackConfig: SnowpackConfig) {
+  async config(snowpackConfig: SnowpackConfig) {
     const cwd = snowpackConfig?.installOptions?.cwd;
     const {out} = snowpackConfig?.buildOptions;
 
     // Check if there is a manifest.json (if not create a generic manifest in root directory)
-    checkManifest(cwd, out);
+    await checkManifest(cwd, out);
     // Check if there is a config (if not create one and run chrome as default, just to have the file in place)
-    checkWebExtConfig(cwd, out);
+    await checkWebExtConfig(cwd, out);
     isProductionBuild = <boolean>(
       (snowpackConfig.installOptions.env &&
         snowpackConfig.installOptions.env['NODE_ENV'] === 'production')
